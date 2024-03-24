@@ -65,25 +65,31 @@ def main():
                 activity = " ".join(activity)
                 data_string = f'{{"id": {id}, "activity": "{activity}"}}'
             except:
-                activity = None 
+                activity = None
+        else:
+            activity = None 
         
         if request_type == "GET":
             get_request(url_with_path)
+            continue
         
         elif request_type == "POST":
-            if activity == None:
+            if activity is None:
                 print("Activity missing! Please try again")
                 continue
             post_request(data_string = data_string, url = url_with_path)
+            continue
         
         elif request_type == "PUT":
             if activity == None:
                 print("Activity missing! Please try again")
                 continue
             put_request(data_string = data_string, url=url_with_path)
+            continue
         
         elif request_type == "DELETE":
             delete_request(data_string = data_string, url=url_with_path)
+            continue
         
 
         
