@@ -77,11 +77,17 @@ def main():
             if activity is None:
                 print("Activity missing! Please try again")
                 continue
+            if activity == "":
+                print("Activity missing! Please try again")
+                continue
             post_request(data_string = data_string, url = url_with_path)
             continue
         
         elif request_type == "PUT":
             if activity == None:
+                print("Activity missing! Please try again")
+                continue
+            if activity == "":
                 print("Activity missing! Please try again")
                 continue
             put_request(data_string = data_string, url=url_with_path)
