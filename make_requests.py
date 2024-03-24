@@ -5,30 +5,15 @@ def get_request(url:str = "https://127.0.0.1:8000"):
     response = requests.get(url = url)
     print(response.json())
 
-def post_request(data_string: str, url:str = "https://127.0.0.1:8000"):
-    try:
-        data = json.loads(data_string)
-    except:
-        print("Invalid json string! Please try again")
-        return
+def post_request(data: dict, url:str = "https://127.0.0.1:8000"):
     response = requests.post(url = url, json=data)
     print(response.json())
     
-def put_request(data_string: str, url:str = "https://127.0.0.1:8000"):
-    try:
-        data = json.loads(data_string)
-    except:
-        print("Invalid json string! Please try again")
-        return
+def put_request(data: dict, url:str = "https://127.0.0.1:8000"):
     response = requests.put(url = url, json = data) 
     print(response.json())
     
-def delete_request(data_string: str, url:str = "https://127.0.0.1:8000"):
-    try:
-        data = json.loads(data_string)
-    except:
-        print("Invalid json string! Please try again")
-        return
+def delete_request(data: dict, url:str = "https://127.0.0.1:8000"):
     response = requests.delete(url = url, json = data)
     print(response.json())
     
@@ -48,6 +33,9 @@ def main():
             continue
         request_type = user_input[0].upper()
         try:
+            if not user_input[1].startswith("/"):
+                print("Invalid request path! Please try again")
+                continue
             request_path = user_input[1]
             url_with_path = url + request_path
         except:
@@ -63,7 +51,7 @@ def main():
             try:
                 activity = body.split()[1:]
                 activity = " ".join(activity)
-                data_string = f'{{"id": {id}, "activity": "{activity}"}}'
+                data = {"id": id, "activity": activity}
             except:
                 activity = None
         else:
@@ -80,7 +68,7 @@ def main():
             if activity == "":
                 print("Activity missing! Please try again")
                 continue
-            post_request(data_string = data_string, url = url_with_path)
+            post_request(data = data, url = url_with_path)
             continue
         
         elif request_type == "PUT":
@@ -90,11 +78,11 @@ def main():
             if activity == "":
                 print("Activity missing! Please try again")
                 continue
-            put_request(data_string = data_string, url=url_with_path)
+            put_request(data = data, url=url_with_path)
             continue
         
         elif request_type == "DELETE":
-            delete_request(data_string = data_string, url=url_with_path)
+            delete_request(data = data, url=url_with_path)
             continue
         
 
